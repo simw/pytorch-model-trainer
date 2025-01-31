@@ -5,3 +5,5 @@ ADD . /app
 
 WORKDIR /app
 RUN /bin/uv sync --extra cpu --frozen --compile-bytecode
+
+ENTRYPOINT [ "/bin/uv", "run", "--no-sync" ]
