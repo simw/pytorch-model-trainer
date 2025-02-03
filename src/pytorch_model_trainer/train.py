@@ -55,6 +55,8 @@ def train(settings: TrainingSettings) -> None:
     tokenizer = tiktoken.get_encoding(settings.data.encoder)
     model = Model(tokenizer.n_vocab, settings.model)
     model = model.to(torch_device)
+    if torch_device == "cuda":
+        model = torch.compile(model)
 
     # Data
     full_text = httpx.get(settings.data.url).text
@@ -95,10 +97,10 @@ def train(settings: TrainingSettings) -> None:
         )
         logger.info(msg)
         for step, (inputs, targets) in enumerate(training_dataloader):
-            full_step = epoch * steps_per_epoch + step
-            logits = model(inputs.to(torch_device))
-            loss = loss_fn(logits, targets.to(torch_device))
-            optimizer.zero_grad(set_to_none=True)
+            optimizer.zero_grad()
+            with torch.autocast(device_type=torch_device, dtype=torch.bfloat16):
+                logits = model(inputs.to(torch_device))
+                loss = loss_fn(logits, targets.to(torch_device))
             loss.backward()
             optimizer.step()
 
@@ -122,6 +124,7 @@ def train(settings: TrainingSettings) -> None:
                     * time_diff
                     / reporting_interval
                 )
+                full_step = epoch * steps_per_epoch + step
                 msg = (
                     f"Step {full_step + 1}: training_loss={loss.item():.3f}, "
                     f"test_loss={test_loss:.3f}, "

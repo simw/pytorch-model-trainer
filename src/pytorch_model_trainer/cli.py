@@ -1,3 +1,5 @@
+import logging
+
 import click
 
 from .train import TrainingSettings, train
@@ -6,7 +8,10 @@ from .train import TrainingSettings, train
 @click.group()
 @click.version_option()
 def cli() -> None:
-    pass
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s: %(message)s",
+    )
 
 
 @cli.command()
