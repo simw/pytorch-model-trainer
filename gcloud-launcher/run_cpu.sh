@@ -10,4 +10,4 @@ gcloud ai custom-jobs create \
     --project=${GCP_PROJECT} \
     --display-name="pytorch-model-trainer-cpu" \
     --worker-pool-spec=machine-type=${MACHINE_TYPE},replica-count=1,container-image-uri=${CONTAINER_IMAGE} \
-    --args=train,hello
+    --args=train,test

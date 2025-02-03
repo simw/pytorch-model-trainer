@@ -6,6 +6,9 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "click>=8.1.8",
+    "httpx>=0.28.1",
+    "pydantic>=2.10.6",
+    "tiktoken>=0.8.0",
 ]
 
 [project.optional-dependencies]
@@ -136,6 +139,7 @@ fail_under = 100
 
 [dependency-groups]
 test = [
+    "coverage>=7.6.10",
     "pytest>=8.3.4",
 ]
 lint = [

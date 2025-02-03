@@ -6,6 +6,6 @@ RUN /bin/uv python install 3.12
 ADD . /app
 
 WORKDIR /app
-RUN /bin/uv sync --extra cude --frozen --compile-bytecode
+RUN /bin/uv sync --extra cuda --frozen --compile-bytecode
 
 ENTRYPOINT [ "/bin/uv", "run", "--no-sync" ]

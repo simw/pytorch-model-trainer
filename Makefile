@@ -6,7 +6,7 @@ sources = src tests
 
 .PHONY: prepare
 prepare:
-	uv sync --frozen --group test --group lint
+	uv sync --extra cpu --frozen --group test --group lint
 
 
 .PHONY: lintable
