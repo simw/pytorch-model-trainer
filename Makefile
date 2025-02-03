@@ -52,6 +52,12 @@ docker: prepare
 	docker build --platform linux/amd64 -f Dockerfile-cuda -t pytorch-model-trainer-cuda .
 
 
+.PHONY: docker-test
+docker-test:
+	docker run --rm pytorch-model-trainer-cpu train
+	docker run --rm pytorch-model-trainer-cuda train
+
+
 .PHONY: docker-push
 # Note: prerequisites are:
 # 1) a gcp project with an artifact registry setup
