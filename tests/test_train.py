@@ -1,9 +1,11 @@
+from typing import cast
+
 import httpx
 import pytest
 
+from pytorch_model_trainer.nn.model import ModelSettings
 from pytorch_model_trainer.train import (
     DataSettings,
-    ModelSettings,
     OptimizationSettings,
     ReportingSettings,
     TrainingSettings,
@@ -32,7 +34,7 @@ def mock_httpx_get(_url: str) -> httpx.Response:
         def text(self) -> str:
             return TEXT
 
-    return MockResponse()
+    return cast(httpx.Response, MockResponse())
 
 
 def test_train(monkeypatch: pytest.MonkeyPatch) -> None:

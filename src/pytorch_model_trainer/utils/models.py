@@ -1,4 +1,4 @@
-from collections.abc import Callable, Iterable
+from collections.abc import Callable, Iterator
 from typing import Protocol
 
 import torch
@@ -36,7 +36,7 @@ def generate(
 def estimate_loss(
     model: torch.nn.Module,
     loss_fn: Callable[[torch.Tensor, torch.Tensor], torch.Tensor],
-    dataloader: Iterable[tuple[torch.Tensor, torch.Tensor]],
+    dataloader: Iterator[tuple[torch.Tensor, torch.Tensor]],
     n_batches: int,
 ) -> float:
     model.eval()
@@ -55,7 +55,7 @@ def estimate_loss(
 def count_params(model: torch.nn.Module, depth: int = 0) -> dict[str, int]:
     params = {name: param.numel() for name, param in model.named_parameters()}
 
-    result = {}
+    result: dict[str, int] = {}
     for name, param in params.items():
         adjusted_name = ".".join(name.split(".")[:depth])
         result[adjusted_name] = result.get(adjusted_name, 0) + param

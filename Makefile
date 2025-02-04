@@ -54,8 +54,8 @@ docker: prepare
 
 .PHONY: docker-test
 docker-test:
-	docker run --rm pytorch-model-trainer-cpu train
-	docker run --rm pytorch-model-trainer-cuda train
+	docker run --rm pytorch-model-trainer-cpu train test
+	docker run --rm pytorch-model-trainer-cuda train test
 
 
 .PHONY: docker-push

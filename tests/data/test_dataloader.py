@@ -28,17 +28,17 @@ def test_epoch_dataloader() -> None:
 
 
 def test_random_dataloader() -> None:
-    data = list(range(100))
+    source_data = list(range(100))
     context_size = 3
     batch_size = 8
-    dataloader = RandomDataLoader(data, context_size, batch_size)
-    assert len(dataloader) == len(data) // (context_size * batch_size)
-    data = iter(dataloader)
-    inputs, targets = next(data)
+    dataloader = RandomDataLoader(source_data, context_size, batch_size)
+    assert len(dataloader) == len(source_data) // (context_size * batch_size)
+    iter_data = iter(dataloader)
+    inputs, targets = next(iter_data)
     assert inputs.shape == (batch_size, context_size)
     assert targets.shape == (batch_size, context_size)
     assert (inputs[:, 1:] == targets[:, :-1]).all()
 
-    inputs2, targets2 = next(data)
+    inputs2, targets2 = next(iter_data)
     assert (inputs2 != inputs).any()
     assert (targets2 != targets).any()

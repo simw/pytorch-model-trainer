@@ -56,7 +56,7 @@ def train(settings: TrainingSettings) -> None:
     model = Model(tokenizer.n_vocab, settings.model)
     model = model.to(torch_device)
     if torch_device == "cuda":
-        model = torch.compile(model)
+        model = torch.compile(model)  # type: ignore
 
     # Data
     full_text = httpx.get(settings.data.url).text
@@ -101,7 +101,7 @@ def train(settings: TrainingSettings) -> None:
             with torch.autocast(device_type=torch_device, dtype=torch.bfloat16):
                 logits = model(inputs.to(torch_device))
                 loss = loss_fn(logits, targets.to(torch_device))
-            loss.backward()
+            loss.backward()  # type: ignore
             optimizer.step()
 
             if (step + 1) % reporting_interval == 0:
